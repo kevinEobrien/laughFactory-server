@@ -26,7 +26,7 @@ const s3 = new aws.S3({
 const upload = multer({
   storage: multerS3({
     s3,
-    bucket: "tactbook",
+    bucket: "the-laugh-factory",
     key: (request, file, next) => {
       next(null, `${Date.now()}_${file.originalname}`);
     }
