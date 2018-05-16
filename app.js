@@ -39,9 +39,9 @@ app.get("/upload", (request, response, next) => {
   });
 });
 
-app.post("/upload", upload.array("image", 1), (request, response) => {
+app.post("/upload", upload.array("audio", 1), (request, response) => {
   response.json({
-    imgUrl: `${request.files[0].location}`
+    audioUrl: `${request.files[0].location}`
   });
 });
 
