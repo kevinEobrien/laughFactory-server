@@ -6,7 +6,7 @@ module.exports = {
     connection: "postgres:///laughfactory" 
   },
   production: {
-    client: "postgresql",
-    connection: process.env.NODE_ENV
+    client: "pg",
+    connection: process.env.DATABASE_URL
   }
 };
