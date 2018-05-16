@@ -1,30 +1,31 @@
 const database = require("./database_connection");
 
 module.exports = {
-  list() {
-    return database("comments").select();
+  list(){
+    return database("laughs").select().orderBy("likes", "desc");
   },
-  read(id) {
-    return database("comments")
-      .where("id", id)
+  read(id){
+    return database("laughs")
+      .where("id",id)
       .first();
   },
-  create(laugh) {
-    return database("comments")
+  create(laugh){
+    return database("laughs")
       .insert(laugh)
       .returning("*")
-      .then(record => record[0]);
+      .then(record=> record[0]);
+
   },
-  update(id, laugh) {
-    return database("comments")
-      .update(laugh)
-      .where("id", id)
-      .returning("*")
-      .then(record => record);
+  update(id, currentLikes){
+    return database("laughs")
+      .where("id",id)
+      .returning("*")  
+      .update({"likes": (currentLikes+1)})
+      .then(record=> record);
   },
-  delete(id) {
-    return database("comments")
-      .where("id", id)
+  delete(id){
+    return database("laughs")
+      .where("id", id) 
       .del();
   }
 };

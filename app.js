@@ -11,13 +11,13 @@ const devMode = process.env.NODE_ENV !== "production";
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get("/", (request, response) => {
+app.get("/", (request, response, next) => {
   queries
     .list()
     .then(laughs => {
       response.json({ laughs });
     })
-    .catch(console.error);
+    .catch(next);
 });
 app.get("/comments", (request, response) => {
   database("comments")
@@ -28,6 +28,7 @@ app.get("/comments", (request, response) => {
 });
 
 app.post("/", (request, response, next) => {
+  console.log ("body is   ",request.body);
   queries
     .create(request.body)
     .then(laugh => {
