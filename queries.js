@@ -16,12 +16,12 @@ module.exports = {
       .then(record=> record[0]);
 
   },
-  update(id, currentLikes){
+  update(id){
     return database("laughs")
-      .where("id",id)
+      .where("id",id)  
+      .select("likes")
       .returning("*")  
-      .update({"likes": (currentLikes+1)})
-      .then(record=> record);
+      .then(record=> record[0]);
   },
   delete(id){
     return database("laughs")

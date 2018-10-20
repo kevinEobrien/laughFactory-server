@@ -38,12 +38,12 @@ app.get("/upload", (request, response, next) => {
     message: "Testing out the upload route"
   });
 });
-
 app.post("/upload", upload.array("audio", 1), (request, response) => {
   response.json({
     audioUrl: `${request.files[0].location}`
   });
 });
+
 
 app.get("/", (request, response, next) => {
   queries
@@ -53,6 +53,16 @@ app.get("/", (request, response, next) => {
     })
     .catch(next);
 });
+
+app.get("/:id", (request, response, next) => {
+  queries
+    .read(request.params.id)
+    .then(laugh => {
+      response.status(201).json({laugh});
+    })
+    .catch(next);
+});
+
 app.get("/comments", (request, response) => {
   database("comments")
     .select()
@@ -81,15 +91,15 @@ app.post("/comments", (request, response, next) => {
 });
 
 app.put("/:id", (request, response, next) => {
-  database("laughs")
-    .select("likes")
-    .where("id", request.params.id)
-    .then(currentLikes => queries.update(request.params.id, currentLikes[0].likes))
+  queries.update(request.params.id)
     .then(comment => {
-      response.send(comment);
+      response.sendStatus(200).json({Message:(comment)});
     })
     .catch(next);
 });
+// app.put("/:id", (request, response, next) => {
+//   datab;
+// });
 
 app.delete("/:id", (request, response, next) => {
   queries
